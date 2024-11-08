@@ -40,6 +40,10 @@ public class TableOfContents extends AnAction {
 
         String tocContent = createTOC(originalContent);
 
+        insertTocInMarkdownFile(project, document, tocContent, originalContent);
+    }
+
+    private static void insertTocInMarkdownFile(Project project, Document document, String tocContent, String originalContent) {
         WriteCommandAction.runWriteCommandAction(project, () -> document.setText(tocContent + "\n\n" + originalContent));
     }
 
