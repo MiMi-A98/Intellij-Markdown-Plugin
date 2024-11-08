@@ -43,14 +43,14 @@ public class TableOfContents extends AnAction {
         WriteCommandAction.runWriteCommandAction(project, () -> document.setText(tocContent + "\n\n" + originalContent));
     }
 
-    private String createTOC(String content) {
-        String[] lines = content.split("\n");
+    private String createTOC(String documentContent) {
+        String[] documentLines = documentContent.split("\n");
         List<String> tocLines = new ArrayList<>();
 
         tocLines.add("<!-- Table of Contents -->");
 
-        for (String line : lines) {
-            if(line.startsWith("#")) {
+        for (String line : documentLines) {
+            if (line.startsWith("#")) {
                 int level = getHeadingLevel(line);
                 String headingText = line.replaceAll("^#+\\s*", "");
                 String tocEntry = "  ".repeat(level - 1) + "- [" + headingText + "](#" + formatAnchor(headingText) + ")";
@@ -64,11 +64,11 @@ public class TableOfContents extends AnAction {
     }
 
     private int getHeadingLevel(String line) {
-        int level = 0;
-        while(level < line.length() && line.charAt(level) == '#') {
-            level++;
+        int headingLevel = 0;
+        while (headingLevel < line.length() && line.charAt(headingLevel) == '#') {
+            headingLevel++;
         }
-        return level;
+        return headingLevel;
     }
 
     private String formatAnchor(String headingText) {
