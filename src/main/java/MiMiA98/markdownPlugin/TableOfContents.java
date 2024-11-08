@@ -51,8 +51,9 @@ public class TableOfContents extends AnAction {
 
         for (String line : lines) {
             if(line.startsWith("#")) {
+                int level = getHeadingLevel(line);
                 String headingText = line.replaceAll("^#+\\s*", "");
-                String tocEntry = headingText;
+                String tocEntry = "  ".repeat(level - 1) +  headingText;
                 tocLines.add(tocEntry);
             }
         }
@@ -60,5 +61,13 @@ public class TableOfContents extends AnAction {
         tocLines.add("<!-- Table of Contents -->");
 
         return String.join("\n", tocLines);
+    }
+
+    private int getHeadingLevel(String line) {
+        int level = 0;
+        while(level < line.length() && line.charAt(level) == '#') {
+            level++;
+        }
+        return level;
     }
 }
