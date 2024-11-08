@@ -1,11 +1,11 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>Mimi_A98.Markdown-Template</id>
+    <id>Mimi_A98.Markdown-Plugin</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Markdown-Template</name>
+    <name>Markdown Template and TOC Generator</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="MiMi_A98@mail.com" url="https://www.yourcompany.com">MiMi_A98</vendor>
@@ -29,6 +29,10 @@
 
     <actions>
         <action class="MiMiA98.markdownPlugin.Template" text="Insert Markdown Template">
+            <add-to-group group-id="ToolsMenu"/>
+        </action>
+
+        <action class="MiMiA98.markdownPlugin.TableOfContents" text="Insert Table of Contents">
             <add-to-group group-id="ToolsMenu"/>
         </action>
     </actions>
