@@ -53,7 +53,7 @@ public class TableOfContents extends AnAction {
             if(line.startsWith("#")) {
                 int level = getHeadingLevel(line);
                 String headingText = line.replaceAll("^#+\\s*", "");
-                String tocEntry = "  ".repeat(level - 1) +  headingText;
+                String tocEntry = "  ".repeat(level - 1) + "- [" + headingText + "](#" + formatAnchor(headingText) + ")";
                 tocLines.add(tocEntry);
             }
         }
@@ -69,5 +69,9 @@ public class TableOfContents extends AnAction {
             level++;
         }
         return level;
+    }
+
+    private String formatAnchor(String headingText) {
+        return headingText.toLowerCase().replace(" ", "-").replaceAll("[^a-z0-9\\-]", "");
     }
 }
