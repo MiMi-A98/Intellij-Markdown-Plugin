@@ -1,4 +1,4 @@
-package MiMiA98.markdownTemplate;
+package MiMiA98.markdownPlugin;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

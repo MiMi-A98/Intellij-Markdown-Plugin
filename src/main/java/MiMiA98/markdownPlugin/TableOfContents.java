@@ -1,4 +1,4 @@
-package MiMiA98.markdownTemplate;
+package MiMiA98.markdownPlugin;
 
 public class TableOfContents {
 }
