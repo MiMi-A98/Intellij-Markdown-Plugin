@@ -28,6 +28,8 @@
     </extensions>
 
     <actions>
-
+        <action class="MiMiA98.markdownTemplate.Template" text="Insert Markdown Template">
+            <add-to-group group-id="ToolsMenu"/>
+        </action>
     </actions>
 </idea-plugin>
