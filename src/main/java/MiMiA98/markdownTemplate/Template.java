@@ -2,10 +2,11 @@ package MiMiA98.markdownTemplate;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,7 +44,12 @@ public class Template extends AnAction {
             throw new RuntimeException(ex);
         }
 
-        Messages.showInfoMessage(textToInsert, "Template");
+        insertTextToFile(project, editor.getDocument(), textToInsert);
+
+    }
+
+    private void insertTextToFile(Project project, Document markdownFile, String textToInsert) {
+        WriteCommandAction.runWriteCommandAction(project, () -> markdownFile.insertString(0, textToInsert));
     }
 
     private String readTemplateText() throws IOException {
