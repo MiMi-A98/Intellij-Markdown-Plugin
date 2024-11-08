@@ -2,12 +2,16 @@ package MiMiA98.markdownPlugin;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TableOfContents extends AnAction {
     @Override
@@ -33,5 +37,28 @@ public class TableOfContents extends AnAction {
 
         Document document = editor.getDocument();
         String originalContent = document.getText();
+
+        String tocContent = createTOC(originalContent);
+
+        WriteCommandAction.runWriteCommandAction(project, () -> document.setText(tocContent + "\n\n" + originalContent));
+    }
+
+    private String createTOC(String content) {
+        String[] lines = content.split("\n");
+        List<String> tocLines = new ArrayList<>();
+
+        tocLines.add("<!-- Table of Contents -->");
+
+        for (String line : lines) {
+            if(line.startsWith("#")) {
+                String headingText = line.replaceAll("^#+\\s*", "");
+                String tocEntry = headingText;
+                tocLines.add(tocEntry);
+            }
+        }
+
+        tocLines.add("<!-- Table of Contents -->");
+
+        return String.join("\n", tocLines);
     }
 }
