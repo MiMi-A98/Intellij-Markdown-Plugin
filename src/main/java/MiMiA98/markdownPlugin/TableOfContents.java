@@ -51,20 +51,26 @@ public class TableOfContents extends AnAction {
         String[] documentLines = documentContent.split("\n");
         List<String> tocLines = new ArrayList<>();
 
-        tocLines.add("<!-- Table of Contents -->");
+        String tocDelimiter = "<!-- Table of Contents -->";
+        tocLines.add(tocDelimiter);
 
         for (String line : documentLines) {
             if (line.startsWith("#")) {
-                int level = getHeadingLevel(line);
-                String headingText = line.replaceAll("^#+\\s*", "");
-                String tocEntry = "  ".repeat(level - 1) + "- [" + headingText + "](#" + formatAnchor(headingText) + ")";
+                int headingLevel = getHeadingLevel(line);
+                String headingText = line.replaceAll("^#+\\s*", ""); // Replace all heading syntax and empty spaces after it
+                String tocEntry = generateTocEntry(headingLevel, headingText);
                 tocLines.add(tocEntry);
             }
         }
 
-        tocLines.add("<!-- Table of Contents -->");
+        tocLines.add(tocDelimiter);
 
         return String.join("\n", tocLines);
+    }
+
+    private @NotNull String generateTocEntry(int headingLevel, String headingText) {
+        return "  ".repeat(headingLevel - 1) // Format indentation
+                + "- [" + headingText + "](#" + formatAnchor(headingText) + ")"; // Add heading text with anchor
     }
 
     private int getHeadingLevel(String line) {
@@ -76,6 +82,8 @@ public class TableOfContents extends AnAction {
     }
 
     private String formatAnchor(String headingText) {
-        return headingText.toLowerCase().replace(" ", "-").replaceAll("[^a-z0-9\\-]", "");
+        return headingText.toLowerCase()
+                .replace(" ", "-")
+                .replaceAll("[^a-z0-9\\-]", ""); // Replace all that are not letters, numbers or dash
     }
 }
