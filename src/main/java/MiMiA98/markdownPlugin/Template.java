@@ -2,8 +2,6 @@ package MiMiA98.markdownPlugin;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
@@ -37,8 +35,7 @@ public class Template extends AnAction {
 
         String textToInsert = readTemplateText();
 
-        insertTextToFile(project, editor.getDocument(), textToInsert);
-
+        DocumentUtils.insertTextToDocument(project, editor.getDocument(), textToInsert);
     }
 
     private String readTemplateText()  {

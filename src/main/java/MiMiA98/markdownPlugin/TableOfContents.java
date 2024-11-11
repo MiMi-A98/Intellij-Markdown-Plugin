@@ -2,7 +2,6 @@ package MiMiA98.markdownPlugin;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -40,11 +39,7 @@ public class TableOfContents extends AnAction {
 
         String tocContent = createTOC(originalContent);
 
-        insertTocInMarkdownFile(project, document, tocContent, originalContent);
-    }
-
-    private static void insertTocInMarkdownFile(Project project, Document document, String tocContent, String originalContent) {
-        WriteCommandAction.runWriteCommandAction(project, () -> document.setText(tocContent + "\n\n" + originalContent));
+        DocumentUtils.insertTextToDocument(project, editor.getDocument(), tocContent);
     }
 
     private String createTOC(String documentContent) {
