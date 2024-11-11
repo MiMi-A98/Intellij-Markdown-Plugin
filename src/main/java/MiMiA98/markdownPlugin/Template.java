@@ -10,9 +10,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.stream.Collectors;
 
 public class Template extends AnAction {
@@ -37,25 +35,25 @@ public class Template extends AnAction {
             return;
         }
 
-        String textToInsert;
-        try {
-            textToInsert = readTemplateText();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        String textToInsert = readTemplateText();
 
         insertTextToFile(project, editor.getDocument(), textToInsert);
 
     }
 
-    private void insertTextToFile(Project project, Document markdownFile, String textToInsert) {
-        WriteCommandAction.runWriteCommandAction(project, () -> markdownFile.insertString(0, textToInsert));
-    }
+    private String readTemplateText()  {
+        try (InputStream inputStream = getClass().getResourceAsStream("/template.md")) {
+            if (inputStream == null) {
+                throw new FileNotFoundException("Resource file not found!");
+            }
 
-    private String readTemplateText() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(("/template.md"))))) {
-            return reader.lines().collect(Collectors.joining("\n"));
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                return reader.lines().collect(Collectors.joining("\n"));
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
-
+        return "";
     }
 }
+
