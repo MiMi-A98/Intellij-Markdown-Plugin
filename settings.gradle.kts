@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Markdown-Template"
+rootProject.name = "Markdown-Plugin"
